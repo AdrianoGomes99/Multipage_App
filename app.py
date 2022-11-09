@@ -5,10 +5,12 @@ import pandas as pd
 import numpy as np
 import pathlib    
 
+external_script = ["https://tailwindcss.com/", {"src": "https://cdn.tailwindcss.com"}]
 
 # meta_tags are required for the app layout to be mobile responsive
 APP = dash.Dash(__name__, suppress_callback_exceptions=True,
                 assets_external_path='https://cdn.tailwindcss.com',
+                external_scripts=external_script,
                 meta_tags=[{'name': 'viewport',
                             'content': 'width=device-width, initial-scale=1.0'}]
                 )
