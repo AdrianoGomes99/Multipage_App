@@ -77,7 +77,9 @@ layout = html.Div([
               style = {'visibility':'hidden'},
               figure={"layout": {"title": "waiting for data..."}}),
     
-    ])
+    ],
+    className='overflow-y-auto h-full w-full flex flex-col items-center',
+    )
 
 
 #%%

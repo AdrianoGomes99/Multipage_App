@@ -116,7 +116,9 @@ layout = html.Div([
     # html.Div(id='original_df', children='{original_df empty}'),
     # html.Div(id='changed_df', children='{changed_df empty}'),
     
-])
+],
+className='overflow-y-auto h-full w-full flex flex-col items-center',
+)
 
 
 #%%

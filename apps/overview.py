@@ -71,7 +71,9 @@ layout = html.Div([
                  {"name": 'Churn Rate (%)', "id":  'Churn Rate (%)', 'editable': False},
                 ]
         ),
-    ])
+    ],
+    className='overflow-y-auto h-full w-full flex flex-col items-center',
+    )
 
 conn = app.con
 

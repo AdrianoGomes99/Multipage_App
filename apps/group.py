@@ -90,7 +90,9 @@ layout = html.Div([
     #    dcc.Store(id='selected_rows_data', storage_type='local'),
     html.Div(id='choosen_att_msg', children='Please select Attrition category in pie chart'),
     
-])
+],
+className='overflow-y-auto h-full w-full flex flex-col items-center',
+)
 
 
 
