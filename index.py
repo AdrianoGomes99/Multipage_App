@@ -12,10 +12,23 @@ from apps import group, individual, overview, churn
 app.APP.layout = html.Div(
     children=[
         html.Header(
-            children=[
-                html.H1(children="Augmanity Dashboard Application", className=" py-3 text-5xl font-bold text-white"), 
+            children=[                
+                html.Div(
+                    children=[
+                        html.P('Augmanity', className='float-left'),
+                        html.P(
+                            children=[
+                                html.Div('User Name'),
+                                html.Div('Profile Pic'),
+                                ],
+                            className='float-right'),
+                        ],
+                    className='flow-root',
+                    ),
+                html.H1(children="Churn & Attrition Dashboards", 
+                        className="place-self-center py-3 text-5xl font-bold text-white"),
                 ],
-            className="flex h-20 w-full flex-none items-center border-b border-[#707070] bg-[#364857]", #"w-full mx-14 px-16 shadow-lg bg-white -mt-14 px-6 container my-3 ",
+            className="flex h-30 w-full flex-col border-b border-[#707070] bg-[#364857]", #"w-full mx-14 px-16 shadow-lg bg-white -mt-14 px-6 container my-3 ",
             ),
         
         dcc.Location(id='url', refresh=False),
@@ -102,13 +115,15 @@ app.APP.layout = html.Div(
         
         html.Footer(
             children=[
-                html.H1(
-                    children=[
-                        " ............ Footer ............ ",
-                        ], 
-                    className=" py-3 text-5xl font-bold text-gray-800 bg-contain bg-center"), 
+                # html.H1(
+                #     children=[
+                #         " ............ Footer ............ ",
+                #         ], 
+                #     className=" py-3 text-5xl font-bold text-gray-800 bg-contain bg-center"), 
+                html.P('', className='float-left'),
+                html.P('Copyright Augmanity 2022', className='float-right'),
                 ],
-            className="flex flex-row" #"w-full mx-14 px-16 shadow-lg bg-contain bg-center -mt-14 px-6 container my-3 ",
+            className="flow-root" #"w-full mx-14 px-16 shadow-lg bg-contain bg-center -mt-14 px-6 container my-3 ",
             ),
         
         ],

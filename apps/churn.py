@@ -23,60 +23,99 @@ churn_df = None
 
 layout = html.Div([
     html.Button(id = 'button_invisible', n_clicks=0, style = dict(display='none') ),
-    html.Div(id='debug_string', children=[]),
+    html.Div(id='debug_string', children=[], style = dict(display='none') ),
     
-    html.H1('Churn', style={"textAlign": "center"}),
-    
-    html.Br(),
-    dcc.Dropdown(id="slct_areas",
-                 options = {1:'Administration & Management',
-                            2:'Financial', 
-                            3:'Information Technology',
-                            4:'Human Resources', 
-                            5:'Logistics',
-                            6:'Commercial & Marketing', 
-                            7:'Engineering & Research', 
-                            8:'Production', 
-                            9:'Quality',
-                            10:'Maintenance'},
-                 value = [1,2,3,4,5,6,7,8,9,10],
-                 multi=True,
-                 style={'width': "60%"}
-                 ),
-    html.Br(),
-    dcc.DatePickerRange(id='date_picker',
-        start_date=date(2020, 1, 15),
-        end_date=today,
-        min_date_allowed=date(2020, 1, 1),
-        max_date_allowed=today,
-        display_format='DD-MM-YYYY',
-        #start_date_placeholder_text='MMM Do, YY'
+    html.Div(
+        children=[
+            html.H1('Evolution of Churn and its classes', style={"textAlign": "center"}),
+            html.Div(
+                children=[
+                        html.Div(
+                            children=[
+                                html.Br(),
+                                html.H2('Select the Areas to analyse', style={"textAlign": "center"}),
+                                dcc.Dropdown(id="slct_areas",
+                                             options = {1:'Administration & Management',
+                                                        2:'Financial', 
+                                                        3:'Information Technology',
+                                                        4:'Human Resources', 
+                                                        5:'Logistics',
+                                                        6:'Commercial & Marketing', 
+                                                        7:'Engineering & Research', 
+                                                        8:'Production', 
+                                                        9:'Quality',
+                                                        10:'Maintenance'},
+                                             value = [1,2,3,4,5,6,7,8,9,10],
+                                             multi=True,
+                                             style={'width': "80%"}
+                                             ),
+                                ],
+                            className='flex flex-col items-center w-1/2',
+                            ),
+                        html.Div(
+                            children=[
+                                html.Br(),
+                                html.H2('Chgoose the time interval', style={"textAlign": "center"}),
+                                dcc.DatePickerRange(id='date_picker',
+                                    start_date=date(2020, 1, 15),
+                                    end_date=today,
+                                    min_date_allowed=date(2020, 1, 1),
+                                    max_date_allowed=today,
+                                    display_format='DD-MM-YYYY',
+                                    #start_date_placeholder_text='MMM Do, YY'
+                                    ),
+                                
+                                html.Br(),
+                                html.H2('Select type of time agregation', style={"textAlign": "center"}),
+                                dcc.Dropdown(id="slct_time_dif",
+                                              options = {1:'Month',
+                                                        3:'Trimester'},
+                                              value = 1,
+                                              multi=False,
+                                              style={'width': "100%"}
+                                              ),
+                                ],
+                            className='flex flex-col',
+                            ),
+                        ],
+                className='flex flex-row',
+                ),
+                ],
+        className='flex flex-col items-center',
         ),
     
-    dcc.Dropdown(id="slct_time_dif",
-                  options = {1:'Month',
-                            3:'Trimester'},
-                  value = 1,
-                  multi=False,
-                  style={'width': "40%"}
-                  ),
-    
-    html.H2('Table Churn Data', style={"textAlign": "left"}),
-    dash_table.DataTable( id='table_churn_data',
-        data=[],
-        columns=[{"name": 'Date', "id": 'dates', 'editable': False},
-                 {"name": 'Churn Rate', "id": 'ChurnRate', 'editable': False},
-                 {"name": 'Leave Rate', "id":  'LeaveRate', 'editable': False},
-                 {"name": 'Involuntary Churn Rate', "id":  'Involuntary', 'editable': False},
-                 {"name": 'Voluntary Churn Rate', "id":  'Voluntary', 'editable': False},
-                 {"name": 'Other Churn Rate', "id":  'Other', 'editable': False},
-                 {"name": 'Retirement Churn Rate', "id":  'Retirement', 'editable': False},
-                ]
+    html.Div(
+        children=[
+            html.Div(
+                children=[
+                    html.H2('Table Churn Data', style={"textAlign": "left"}),
+                    dash_table.DataTable( id='table_churn_data',
+                        data=[],
+                        columns=[{"name": 'Date', "id": 'dates', 'editable': False},
+                                 #{"name": 'Churn Rate', "id": 'ChurnRate', 'editable': False},
+                                 #{"name": 'Leave Rate', "id":  'LeaveRate', 'editable': False},
+                                 {"name": 'Involuntary Churn Rate', "id":  'Involuntary', 'editable': False},
+                                 {"name": 'Voluntary Churn Rate', "id":  'Voluntary', 'editable': False},
+                                 {"name": 'Other Churn Rate', "id":  'Other', 'editable': False},
+                                 {"name": 'Retirement Churn Rate', "id":  'Retirement', 'editable': False},
+                                ]
+                        ),
+                    ],
+                className='flex flex-col border-8',
+                ),
+            
+            html.Div(
+                children=[
+                    dcc.Graph(id='churn_graph', 
+                              style = {'visibility':'hidden'},
+                              figure={"layout": {"title": "waiting for data..."}}),
+                    ],
+                className='flex border-8 max-h-96',
+                ),
+            ],
+        className='flex flex-row border-8',
         ),
-    dcc.Graph(id='churn_graph', 
-              style = {'visibility':'hidden'},
-              figure={"layout": {"title": "waiting for data..."}}),
-    
+            
     ],
     className='overflow-y-auto h-full w-full flex flex-col items-center',
     )
@@ -234,7 +273,7 @@ def update_debug(n_clicks, areas_lst, start_date, end_date, time_dif):
         legend_title="Churn Class",
         font=dict(
             family="Arial",
-            size=18,
+            size=12,
             color="RebeccaPurple")
         )
     if int(time_dif)==1:

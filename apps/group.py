@@ -9,20 +9,24 @@ DATA_ATT = None
 
 layout = html.Div([
     
-    html.Div(id='debug_print', children=[str(app.DEFAULT_AREA)]),
+    html.Div(id='debug_print', children=[str(app.DEFAULT_AREA)], style = dict(display='none') ),
     html.Hr(),
     
-    html.H1('Group Attrition Dashboards', style={"textAlign": "center"}),
-
-    html.Br(),
-    dcc.Dropdown(id="slct_area",
-                 options = app.AREAS,
-                 value = app.DEFAULT_AREA,
-                 multi=True,
-                 style={'width': "60%"}
-                 ),
-   
-    html.Br(),
+    html.Div(
+        children= [
+                html.H1('Group Attrition Dashboards', style={"textAlign": "center"}),
+            
+                html.Br(),
+                dcc.Dropdown(id="slct_area",
+                             options = app.AREAS,
+                             value = app.DEFAULT_AREA,
+                             multi=True,
+                             style={'width': "80%"}
+                             ),
+                ],
+        className='flex flex-col items-center',
+        ),
+       
     html.Div([
         html.Div([
             html.H2(children="Bar Plot", style={"textAlign": "center"}),
@@ -34,7 +38,7 @@ layout = html.Div([
                     'No': 'green', 'Voluntary': 'red', 'Involuntary': 'blue'},
                 barmode="group") )
                 #}, style = {'visibility':'hidden'})
-        ], className='six columns'),
+        ], className='flex flex-col w-1/2'),
         
         html.Div([
             html.H2(children="Pie Char", style={"textAlign": "center"}),
@@ -44,10 +48,11 @@ layout = html.Div([
                 color='attrition', 
                  color_discrete_map={
                      'Voluntary': 'red', 'Involuntary': 'blue', 'No': 'green'}
-                ))
+                )),
                 #}, style = {'visibility':'hidden'})
-            ], className='six columns'),
-    ], className='row'),
+            html.Div(id='choosen_att_msg', children='Please select Attrition category in pie chart'),
+            ], className='flex flex-col w-1/2'),
+    ], className='flex flex-row'),
    
     # html.Hr(),
     # dash_table.DataTable( id='datatable-interactivity',
@@ -88,10 +93,10 @@ layout = html.Div([
     #this data is teh result of the selection in the table
     # (will be sent for page "Individual attrition)
     #    dcc.Store(id='selected_rows_data', storage_type='local'),
-    html.Div(id='choosen_att_msg', children='Please select Attrition category in pie chart'),
+    #html.Div(id='choosen_att_msg', children='Please select Attrition category in pie chart'),
     
 ],
-className='overflow-y-auto h-full w-full flex flex-col items-center',
+className='overflow-y-auto h-full w-full flex flex-col', # items-center',
 )
 
 
